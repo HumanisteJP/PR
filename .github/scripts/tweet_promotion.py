@@ -14,8 +14,8 @@ response = requests.get(url, headers=headers)
 
 print(response.json())
 
-def main():
+# def main():
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
