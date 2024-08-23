@@ -40,6 +40,7 @@ def main():
     config=Config()
 
     # microCMSのデータの取得
+    # 最新の一記事だけ取得
     url = config.microcms_url
     headers = {
         "X-MICROCMS-API-KEY": config.x_microcms_api_key
@@ -66,6 +67,7 @@ def main():
                         access_token=config.twitter_access_token,
                         access_token_secret=config.twitter_access_token_secret)
 
+    # ツイートの内容
     message=f"新しい記事が公開されました。\n\n{data["contents"][0]["title"]}\n{config.blog_base_url}{data["contents"][0]["id"]}"
 
     try:
