@@ -30,6 +30,9 @@ class Config:
         self.blog_base_url = os.getenv("BLOG_BASE_URL")
         print("BLOG_BASE_URLの状態:", "取得済み" if self.blog_base_url else "見つかりません")
 
+        self.bearer_token = os.getenv("BEARER_TOKEN")
+        print("BEARER_TOKENの状態:", "取得済み" if self.bearer_token else "見つかりません")
+
         print("設定の初期化が完了しました。")
 
 def main():
@@ -57,6 +60,7 @@ def main():
     
     # Twitterへのツイート
     client = tweepy.Client(
+                        bearer_token=config.bearer_token,
                         consumer_key=config.twitter_consumer_key,
                         consumer_secret=config.twitter_consumer_secret,
                         access_token=config.twitter_access_token,
