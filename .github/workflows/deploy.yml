@@ -2,7 +2,7 @@
 name: Deploy
 on:
   repository_dispatch:
-    types: [update_post]
+    types: [blog_posted]
 jobs:
   deploy:
     runs-on: ubuntu-latest
