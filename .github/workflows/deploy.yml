@@ -4,13 +4,31 @@ on:
   repository_dispatch:
     types: [blog_posted]
 jobs:
-  deploy:
+  tweet_PR:
     runs-on: ubuntu-latest
+    timeout-minutes: 3
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - run: npm install
-    - run: npm run build
-    - run: npm run deploy
+        - name: Checkout repository
+          uses: actions/checkout@v4
+    
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.x'
+            cache: pip
+    
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r .github/requirements.txt
+    
+        - name: Tweet to promote our new blog post
+          env:
+            MICROCMS_URL: ${{ secrets.MICROCMS_URL }}
+            X_MICROCMS_API_KEY: ${{ secrets.X_MICROCMS_API_KEY }}
+            TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+            TWITTER_API_SECRET_KEY: ${{ secrets.TWITTER_API_SECRET_KEY }}
+            TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+            TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          run: |
+            python .github/scripts/tweet_promotion.py
