@@ -61,7 +61,7 @@ def main():
                         consumer_secret=config.twitter_consumer_secret,
                         access_token=config.twitter_access_token,
                         access_token_secret=config.twitter_access_token_secret)
-    print(data)
+
     message=f"新しい記事が公開されました。\n\n{data["contents"][0]["title"]}\n{config.blog_base_url}{data["contents"][0]["id"]}"
 
     try:
