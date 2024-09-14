@@ -82,6 +82,10 @@ def main():
     # ツイートの内容
     modified_tags = [f"#{s} " for s in data["tags"]]
     hash_tag="".join(modified_tags)
+    print(data)
+    print(data["tags"])
+    print(modified_tags)
+    print(hash_tag)
     message=f"新しい記事が公開されました。\n\n{data["title"]}\n{hash_tag}\n{config.blog_base_url}{data["id"]}"
 
     try:
