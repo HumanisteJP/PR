@@ -56,14 +56,10 @@ def main():
     config=Config()
 
     # microCMSのデータの取得
-    # 最新の一記事だけ取得
-    url = config.microcms_url
+    # ペイロードから公開された記事のidを取得する
+    url = config.microcms_url+"/"+data.get("id")
     headers = {
         "X-MICROCMS-API-KEY": config.x_microcms_api_key
-    }
-    params = {
-        "limit": 1,
-        "orders": "-publishedAt"
     }
 
     try:
@@ -84,7 +80,9 @@ def main():
                         access_token_secret=config.twitter_access_token_secret)
 
     # ツイートの内容
-    message=f"新しい記事が公開されました。\n\n{data["contents"][0]["title"]}\n{config.blog_base_url}{data["contents"][0]["id"]}"
+    modified_tags = [f"#{s} " for s in data["tags"]]
+    hash_tag="".join(modified_tags)
+    message=f"新しい記事が公開されました。\n\n{data["title"]}\n{hash_tag}\n{config.blog_base_url}{data["id"]}"
 
     try:
         # ツイートを投稿
