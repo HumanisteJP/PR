@@ -63,7 +63,7 @@ def main():
     }
 
     try:
-        response = requests.get(url, headers=headers, params=params)
+        response = requests.get(url, headers=headers)
         response.raise_for_status()  # HTTPエラーが発生した場合に例外を発生させる
         data = response.json()
     except requests.exceptions.RequestException as e:
