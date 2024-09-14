@@ -33,4 +33,4 @@ jobs:
             BLOG_BASE_URL: ${{ secrets.BLOG_BASE_URL }}
             BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
           run: |
-            python .github/scripts/tweet_promotion.py
+            python .github/scripts/tweet_promotion.py '${{ toJSON(github.event.client_payload) }}'

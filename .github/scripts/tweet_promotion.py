@@ -36,28 +36,23 @@ class Config:
         print("設定の初期化が完了しました。")
 
 def main():
+    # コマンドライン引数の取得
+    if len(sys.argv) != 2:
+        print("Usage: python tweet_promotion.py '<JSON_DATA>'")
+        sys.exit(1)
+    
+    json_data = sys.argv[1]
+    try:
+        data = json.loads(json_data)
+    except json.JSONDecodeError:
+        print("Invalid JSON data")
+        sys.exit(1)
+    if data.get("type")!="new":
+        print("This blog post is not new.")
+        sys.exit(1)
+    
     # 設定データの取得
     config=Config()
-
-    # microCMSのデータの取得
-    # 最新の一記事だけ取得
-    url = config.microcms_url
-    headers = {
-        "X-MICROCMS-API-KEY": config.x_microcms_api_key
-    }
-    params = {
-        "limit": 1,
-        "orders": "-publishedAt"
-    }
-
-    try:
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()  # HTTPエラーが発生した場合に例外を発生させる
-        data = response.json()
-    except requests.exceptions.RequestException as e:
-        print("microCMSからのデータの取得に失敗しました")
-        print(f"エラーの詳細: {e}")
-        return
     
     # Twitterへのツイート
     client = tweepy.Client(
@@ -68,7 +63,7 @@ def main():
                         access_token_secret=config.twitter_access_token_secret)
 
     # ツイートの内容
-    message=f"新しい記事が公開されました。\n\n{data["contents"][0]["title"]}\n{config.blog_base_url}{data["contents"][0]["id"]}"
+    message=f"新しい記事が公開されました。\n\n{data["contents"][0]["title"]}\n{config.blog_base_url}{data.get("id")}"
 
     try:
         # ツイートを投稿
