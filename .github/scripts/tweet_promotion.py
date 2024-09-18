@@ -48,9 +48,9 @@ def main():
     except json.JSONDecodeError:
         print("Invalid JSON data")
         sys.exit(1)
-    if data.get("type")!="new":
-        print("This blog post is not new.")
-        sys.exit(1)
+    # if data.get("type")!="new":
+    #     print("This blog post is not new.")
+    #     sys.exit(1)
     
     # 設定データの取得
     config=Config()
